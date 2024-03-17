@@ -3,12 +3,13 @@
 
 
 
-1. Create a lakehouse
-2. Shortcut the data from ADLS Gen2 using SAS keys
-3. Upload the spark notebook
-4. Run the spark notebook
-5. Create a semantic model and set relationship between tables
-5. Create reports using direct lake mode
+1. Create a new workspace
+2. Create a new lakehouse
+3. Shortcut the data from ADLS Gen2 using SAS keys
+4. Upload the spark notebook
+5. Run the spark notebook
+6. Create a semantic model and set relationship between tables
+7. Create reports using direct lake mode
 
 
 ## Step 1. Create  Lakehouse
@@ -19,26 +20,26 @@
 
 |Setting|Value|
 |--|--|
-|URL|https://publicdatamsdndatalake.dfs.core.windows.net/dataset|
+|URL|```https://publicdatamsdndatalake.dfs.core.windows.net/dataset```|
 |Connection|Create new connection|
-|Connection name|publicdatastockmarket|
+|Connection name|```publicdatastockmarket```|
 |Authentication Kind|Shared Access Signature (SAS)|
-|SAS token|sp=rle&st=2024-02-28T15:36:24Z&se=2025-12-31T23:36:24Z&spr=https&sv=2022-11-02&sr=c&sig=D09gESF9Cd0jObLDKSLO%2F1RA1JJGXMlf1W865YDNm1o%3D|
+|SAS token|```sp=rle&st=2024-02-28T15:36:24Z&se=2025-12-31T23:36:24Z&spr=https&sv=2022-11-02&sr=c&sig=D09gESF9Cd0jObLDKSLO%2F1RA1JJGXMlf1W865YDNm1o%3D```|
 
 ### Shortcut ADLS Gen2 dataset
 
 
-|Setting|Value|Remarks
-|--|--|--|
+|Setting|Value|
+|--|--|
 |Shortcut Name|dataset|
-|URL|https://publicdatamsdndatalake.dfs.core.windows.net||
+|URL|```https://publicdatamsdndatalake.dfs.core.windows.net```|
 |Sub Path|/dataset|
 
 ### Source file statistics
 
-|Table|Source File Count|Source File Size|Source Row Count| Source|Remarks|
-|--|--:|--:|--:|--|--|
-|calendar|1|1.48 mb|20,088|  Calendar data in CSV format |date values from 
+|Table|Source File Count|Source File Size|Source Row Count| Source|
+|--|--:|--:|--:|--|
+|calendar|1|1.48 mb|20,088|  Calendar data in CSV format |
 |companymaster|3|< 1mb|7,175|Downloaded from https://www.nasdaq.com/market-activity/stocks/screener |
 |stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/ |
 
