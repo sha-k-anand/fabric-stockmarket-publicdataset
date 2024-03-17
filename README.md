@@ -33,8 +33,42 @@ Main header content is cool
 |URL|https://publicdatamsdndatalake.dfs.core.windows.net|Readonly - No need to change|
 |Sub Path|/dataset|
 
+
+|Table|Source File Count|Source File Size|Source Row Count| Source|Remarks|
+|--|--:|--:|--:|--|--|
+|calendar|1|1.48 mb|20,088|  Calendar data in CSV format |date values from 
+|companymaster|3|< 1mb|7,175|Downloaded from https://www.nasdaq.com/market-activity/stocks/screener |
+|stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/ |
+
+
 # Create a spark notebook and copy the below cells to it.
 
+
+```
+%%sql
+DROP TABLE IF EXISTS  csv_calendar;
+CREATE TABLE  csv_calendar
+(
+SQLDate      STRING,
+DateID       INT,
+WeekID       INT,
+Week         STRING,
+QuarterID    INT,
+Quarter1     STRING,
+MonthID      INT,
+Month1       STRING,
+YearMonthID  INT,
+YearMonth    STRING,
+WeekDayID    INT,
+WeekDay1     STRING,
+Year1        INT
+) 
+USING csv
+OPTIONS (
+path "Files/dataset/stockmarket/calendar/calendar.csv",
+    header "true"
+)
+```
 
 ```
 %%sql
@@ -61,48 +95,23 @@ path "Files/dataset/stockmarket/companymaster/*.csv",
 
 ```
 
-```
-%%sql
-DROP TABLE IF EXISTS  csv_calendar;
-CREATE TABLE  csv_calendar
-(
-SQLDate   STRING,
-DateID INT,
-WeekID INT,
-Week STRING,
-QuarterID INT,
-Quarter1 STRING,
-MonthID INT,
-Month1 STRING,
-YearMonthID INT,
-YearMonth STRING,
-WeekDayID INT,
-WeekDay1 STRING,
-Year1 INT
-) 
-USING csv
-OPTIONS (
-path "Files/dataset/stockmarket/calendar/calendar.csv",
-    header "true"
-)
-```
 
 
 ```
 %%sql
-DROP TABLE IF EXISTS  csv_stock;
-CREATE TABLE  csv_stock
+DROP TABLE IF EXISTS  csv_stockmarketdata;
+CREATE TABLE  csv_stockmarketdata
  (
-	TICKER       STRING,
-    PER          STRING,
-    DATE         INT,
-    TIME         STRING,
-    OPEN         DECIMAL(10,4),
-    HIGH         DECIMAL(10,4),
-    LOW          DECIMAL(10,4),
-    CLOSE        DECIMAL(10,4),
-    VOL          INT,
-    OPENINT      INT
+    Ticker	     STRING,
+    Per          STRING,
+    Date         INT,
+    Time         STRING,
+    Open         DECIMAL(10,4),
+    High         DECIMAL(10,4),
+    Low          DECIMAL(10,4),
+    Close        DECIMAL(10,4),
+    Vol          INT,
+    OpenInt      INT
 ) 
 USING csv
 OPTIONS (
@@ -112,37 +121,33 @@ path "Files/dataset/stockmarket/marketdata/*/*",
 
 ```
 
+```
+%%pyspark
+resultsDF=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
+resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")```
+
+
 
 ```
 %%pyspark
-resultsDF=spark.sql("SELECT Symbol,Name,Country,IPOYear,Sector,Industry  FROM csv_companymaster")
+resultsDF=spark.sql("SELECT Symbol,Name,Country,IPOYear,Sector,Industry,LEFT(Symbol,1) as SymbolStartWith  FROM csv_companymaster")
 resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/companymaster")
 ```
 
-```
-%%pyspark
-resultsDF=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year from csv_calendar")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/dimdate")
-```
 
 ```
 %%pyspark
-resultsDF=spark.sql("SELECT replace(TICKER,'.US','') as Ticker,DATE as DateID,OPEN as Open,HIGH as High,LOW as Low,CLOSE as Close,VOL as Vol,OPENINT as OpenInt FROM csv_stock WHERE DATE >= 20200101 AND replace(TICKER,'.US','') IN (SELECT Symbol FROM csv_companymaster)")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/stockdata")
+resultsDF=spark.sql("SELECT REPLACE(Ticker,'.US','') as Ticker,Date as DateID,Open,High,Low,Close,Vol,OpenInt FROM csv_stockmarketdata  WHERE Date >= 20000101 AND REPLACE(Ticker,'.US','') IN (SELECT Symbol FROM csv_companymaster)")
+resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/stockmarketdata")
 ```
 
 ```
 %%sql
-DROP TABLE IF EXISTS  csv_companymaster;
 DROP TABLE IF EXISTS  csv_calendar;
-DROP TABLE IF EXISTS  csv_stock;
+DROP TABLE IF EXISTS  csv_companymaster;
+DROP TABLE IF EXISTS  csv_stockmarketdata;
 ```
 
-|Table|Row Count| Remarks|
-|--|--:|--|
-|companymaster|7,175||
-|dimdate|20,088| date values from | 
-|stockdata|5,712,950||
 
 
 # Semantic Model - Table relationships
