@@ -24,7 +24,7 @@ Main header content is cool
 |Authentication Kind|Shared Access Signature (SAS)|
 |SAS token|sp=rle&st=2024-02-28T15:36:24Z&se=2025-12-31T23:36:24Z&spr=https&sv=2022-11-02&sr=c&sig=D09gESF9Cd0jObLDKSLO%2F1RA1JJGXMlf1W865YDNm1o%3D|
 
-# Shortcut ADLS Gen2
+# Shortcut ADLS Gen2 dataset
 
 
 |Setting|Value|Remarks
@@ -33,6 +33,7 @@ Main header content is cool
 |URL|https://publicdatamsdndatalake.dfs.core.windows.net|Readonly - No need to change|
 |Sub Path|/dataset|
 
+# Source file statistics
 
 |Table|Source File Count|Source File Size|Source Row Count| Source|Remarks|
 |--|--:|--:|--:|--|--|
@@ -124,7 +125,8 @@ path "Files/dataset/stockmarket/marketdata/*/*",
 ```
 %%pyspark
 resultsDF=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")```
+resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")
+```
 
 
 
@@ -159,5 +161,3 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 
 
 
-ToDo
-1. rename tables
