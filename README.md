@@ -1,7 +1,5 @@
-# Header 1 - Level 1
-Main header content is cool
 
-## Header 1 - Level 2
+# Summary of Steps
 
 
 
@@ -13,7 +11,10 @@ Main header content is cool
 5. Create reports using direct lake mode
 
 
-# Shortcut ADLS Gen2
+## Step 1. Create  Lakehouse
+
+
+### Shortcut ADLS Gen2
 
 
 |Setting|Value|
@@ -24,16 +25,16 @@ Main header content is cool
 |Authentication Kind|Shared Access Signature (SAS)|
 |SAS token|sp=rle&st=2024-02-28T15:36:24Z&se=2025-12-31T23:36:24Z&spr=https&sv=2022-11-02&sr=c&sig=D09gESF9Cd0jObLDKSLO%2F1RA1JJGXMlf1W865YDNm1o%3D|
 
-# Shortcut ADLS Gen2 dataset
+### Shortcut ADLS Gen2 dataset
 
 
 |Setting|Value|Remarks
 |--|--|--|
 |Shortcut Name|dataset|
-|URL|https://publicdatamsdndatalake.dfs.core.windows.net|Readonly - No need to change|
+|URL|https://publicdatamsdndatalake.dfs.core.windows.net||
 |Sub Path|/dataset|
 
-# Source file statistics
+### Source file statistics
 
 |Table|Source File Count|Source File Size|Source Row Count| Source|Remarks|
 |--|--:|--:|--:|--|--|
@@ -42,8 +43,10 @@ Main header content is cool
 |stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/ |
 
 
-# Create a spark notebook and copy the below cells to it.
+### Create a spark notebook and copy the below cells to it.
+<details>
 
+  <summary>Click me</summary>
 
 ```
 %%sql
@@ -68,11 +71,8 @@ USING csv
 OPTIONS (
 path "Files/dataset/stockmarket/calendar/calendar.csv",
     header "true"
-)
-```
+);
 
-```
-%%sql
 DROP TABLE IF EXISTS  csv_companymaster;
 CREATE TABLE  csv_companymaster
  (
@@ -92,14 +92,8 @@ USING csv
 OPTIONS (
 path "Files/dataset/stockmarket/companymaster/*.csv",
     header "true"
-)
+);
 
-```
-
-
-
-```
-%%sql
 DROP TABLE IF EXISTS  csv_stockmarketdata;
 CREATE TABLE  csv_stockmarketdata
  (
@@ -124,23 +118,14 @@ path "Files/dataset/stockmarket/marketdata/*/*",
 
 ```
 %%pyspark
-resultsDF=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")
-```
+resultsDFcalendar=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
+resultsDFcalendar.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")
 
+resultsDFcompanymaster=spark.sql("SELECT Symbol,Name,Country,IPOYear,Sector,Industry,LEFT(Symbol,1) as SymbolStartWith  FROM csv_companymaster")
+resultsDFcompanymaster.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/companymaster")
 
-
-```
-%%pyspark
-resultsDF=spark.sql("SELECT Symbol,Name,Country,IPOYear,Sector,Industry,LEFT(Symbol,1) as SymbolStartWith  FROM csv_companymaster")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/companymaster")
-```
-
-
-```
-%%pyspark
-resultsDF=spark.sql("SELECT REPLACE(Ticker,'.US','') as Ticker,Date as DateID,Open,High,Low,Close,Vol,OpenInt FROM csv_stockmarketdata  WHERE Date >= 20000101 AND REPLACE(Ticker,'.US','') IN (SELECT Symbol FROM csv_companymaster)")
-resultsDF.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/stockmarketdata")
+resultsDFstockmarketdata=spark.sql("SELECT REPLACE(Ticker,'.US','') as Ticker,Date as DateID,Open,High,Low,Close,Vol,OpenInt FROM csv_stockmarketdata  WHERE Date >= 20000101 AND REPLACE(Ticker,'.US','') IN (SELECT Symbol FROM csv_companymaster)")
+resultsDFstockmarketdata.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/stockmarketdata")
 ```
 
 ```
@@ -149,15 +134,15 @@ DROP TABLE IF EXISTS  csv_calendar;
 DROP TABLE IF EXISTS  csv_companymaster;
 DROP TABLE IF EXISTS  csv_stockmarketdata;
 ```
+</details>
 
 
-
-# Semantic Model - Table relationships
+### Semantic Model - Table relationships
 
 |Table 1|Table 2|Cardinality|Cross-filter direction|Make this relationship acitve|
 |--|--|--|--|--|
-|stockdata.DateID|dimdate.DateID|Many to one|Single|Yes|
-|stockdata.Ticker|companymaster.Symbol|Many to one|Single|Yes|
+|stockmarketdata.DateID|calendar.DateID|Many to one|Single|Yes|
+|stockmarketdata.Ticker|companymaster.Symbol|Many to one|Single|Yes|
 
 
 
