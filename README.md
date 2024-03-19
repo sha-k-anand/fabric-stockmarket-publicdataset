@@ -12,7 +12,11 @@
 7. Create reports using direct lake mode
 
 
-## Step 1. Create  Lakehouse
+## Step 1. Create  a workspace
+## Step 2. Create  a Lakehouse
+
+## Step 3. Shortcut the data from ADLS Gen2 using SAS keys
+<details>
 
 
 ### Shortcut ADLS Gen2
@@ -43,11 +47,12 @@
 |companymaster|3|< 1mb|7,175|Downloaded from https://www.nasdaq.com/market-activity/stocks/screener |
 |stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/ |
 
+</details>
 
-### Create a spark notebook and copy the below cells to it.
+## Step 3. Create a spark notebook and copy the below cells to it.
 <details>
 
-  <summary>Click me</summary>
+  <summary>View notebook code</summary>
 
 ```
 %%sql
@@ -68,11 +73,7 @@ WeekDayID    INT,
 WeekDay1     STRING,
 Year1        INT
 ) 
-USING csv
-OPTIONS (
-path "Files/dataset/stockmarket/calendar/calendar.csv",
-    header "true"
-);
+USING csv OPTIONS (path "Files/dataset/stockmarket/calendar/calendar.csv", header "true");
 
 DROP TABLE IF EXISTS  csv_companymaster;
 CREATE TABLE  csv_companymaster
@@ -89,11 +90,7 @@ Volume        STRING,
 Sector        STRING,
 Industry      STRING
 ) 
-USING csv
-OPTIONS (
-path "Files/dataset/stockmarket/companymaster/*.csv",
-    header "true"
-);
+USING csv OPTIONS (path "Files/dataset/stockmarket/companymaster/*.csv",    header "true");
 
 DROP TABLE IF EXISTS  csv_stockmarketdata;
 CREATE TABLE  csv_stockmarketdata
@@ -109,11 +106,7 @@ CREATE TABLE  csv_stockmarketdata
     Vol          INT,
     OpenInt      INT
 ) 
-USING csv
-OPTIONS (
-path "Files/dataset/stockmarket/marketdata/*/*",
-    header "true"
-)
+USING csv OPTIONS (path "Files/dataset/stockmarket/marketdata/*/*",    header "true")
 
 ```
 
@@ -138,7 +131,7 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 </details>
 
 
-### Semantic Model - Table relationships
+## Step 4. Create a new Semantic Model and set Table relationships
 
 |Table 1|Table 2|Cardinality|Cross-filter direction|Make this relationship acitve|
 |--|--|--|--|--|
@@ -147,3 +140,4 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 
 
 
+## Step 5. Create reports
