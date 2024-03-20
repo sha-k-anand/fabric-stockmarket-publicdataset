@@ -1,22 +1,14 @@
 
-# Summary of Steps
-
-
-
-1. Create a new workspace
-2. Create a new lakehouse
-3. Shortcut the data from ADLS Gen2 using SAS keys
-4. Upload the spark notebook
-5. Run the spark notebook
-6. Create a semantic model and set relationship between tables
-7. Create reports using direct lake mode
-
 
 ## Step 1. Create  a workspace
+    Create a new workspace in fabric
 ## Step 2. Create  a Lakehouse
+  Navigate to the newly created workspace and create a new lakehouse in it.
+  This should enable fabric trial and assign the newly created workspace to the trial capacity.
 
 ## Step 3. Shortcut the data from ADLS Gen2 using SAS keys
 <details>
+  Navigate to the lakehouse and click on the files section and create a new shortcut
 
 
 ### Shortcut ADLS Gen2
@@ -106,7 +98,7 @@ CREATE TABLE  csv_stockmarketdata
     Vol          INT,
     OpenInt      INT
 ) 
-USING csv OPTIONS (path "Files/dataset/stockmarket/marketdata/*/*",    header "true")
+USING csv OPTIONS (path "Files/dataset/stockmarket/stockmarketdata/*/*",    header "true")
 
 ```
 
