@@ -7,9 +7,11 @@
   This should enable fabric trial and assign the newly created workspace to the trial capacity.
 
 ## Step 3. Shortcut the data from ADLS Gen2 using SAS keys
-<details>
-  Navigate to the lakehouse and click on the files section and create a new shortcut
+Navigate to the lakehouse and click on the files section and create a new shortcut
 
+
+<details>
+  
 
 ### Shortcut ADLS Gen2
 
@@ -104,7 +106,7 @@ USING csv OPTIONS (path "Files/dataset/stockmarket/stockmarketdata/*/*",    head
 
 ```
 %%pyspark
-resultsDFcalendar=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,Week,Quarter1 as Quarter,Month1 as Month,YearMonth,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
+resultsDFcalendar=spark.sql("SELECT CAST(SQLDate as DATE) as SQLDate ,DateID,WeekID,Week,QuarterID,Quarter1 as Quarter,MonthID,Month1 as Month,YearMonthID,YearMonth,WeekDayID,WeekDay1 as WeekDay,Year1 as Year FROM csv_calendar WHERE DateID >= 20000101")
 resultsDFcalendar.write.format("delta").mode("overwrite").option("overwriteSchema", "true").save("Tables/calendar")
 
 resultsDFcompanymaster=spark.sql("SELECT Symbol,Name,Country,IPOYear,Sector,Industry,LEFT(Symbol,1) as SymbolStartWith  FROM csv_companymaster")
@@ -129,6 +131,22 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 |--|--|--|--|--|
 |stockmarketdata.DateID|calendar.DateID|Many to one|Single|Yes|
 |stockmarketdata.Ticker|companymaster.Symbol|Many to one|Single|Yes|
+
+
+### Click on each of the columns in the modeling view and go to properties -> advanced and then set the "Sort by Column"
+
+|Table |Column |Sort by Column|Summarize by| Is Hidden |
+|--|--|--|--|--|
+|calendar|YearMonth|YearMonthID|
+|calendar|Month|MonthID|
+|calendar|Week|WeekID|
+|calendar|Quarter|QuarterID|
+|calendar|Year|| None|
+|calendar|MonthID|| None|Yes|
+|calendar|QuarterID|| None|Yes|
+|calendar|WeekID|| None|Yes|
+
+
 
 
 
