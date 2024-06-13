@@ -151,3 +151,16 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 
 
 ## Step 5. Create reports
+
+
+
+## Step 6. Power BI Copilot 
+
+|Copilot| Prompt|
+|--|--|
+|Power BI|Create a page to examine the daily stock market performance based on opening, closing, high, and low prices|
+|Power BI|Create a page to analyze the distribution of IPO years across different sectors and countries|
+|Power BI|Create a page to identify trends in trading volume and open interest over time|
+|Power BI|Create a page to analyze the distribution of industries within each sector|
+|Power BI|Create a page to analyze the stock market activity on a monthly basis|
+|Power BI|Create a page to identify the best performing sectors based on stock market data|
