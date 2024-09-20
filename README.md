@@ -26,6 +26,10 @@ Navigate to the lakehouse and click on the files section and create a new shortc
 
 ### Shortcut ADLS Gen2 dataset
 
+Add a check box - remove below section
+Navigate and browse shortcuts to view files
+
+
 
 |Setting|Value|
 |--|--|
@@ -39,7 +43,7 @@ Navigate to the lakehouse and click on the files section and create a new shortc
 |--|--:|--:|--:|--|
 |calendar|1|1.48 mb|20,088|  Calendar data in CSV format |
 |companymaster|3|< 1mb|7,175|Downloaded from https://www.nasdaq.com/market-activity/stocks/screener |
-|stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/ |
+|stockmarketdata|8672|1.3 gb| 19,359,931|Downloaded from https://stooq.com/db/h/  Daily US ASCII - Until July 19 2024|
 
 </details>
 
@@ -156,11 +160,52 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 
 ## Step 6. Power BI Copilot 
 
-|Copilot| Prompt|
-|--|--|
-|Power BI|Create a page to examine the daily stock market performance based on opening, closing, high, and low prices|
+|Copilot| Prompt|Status|
+|--|--|--|
+|Power BI|Create a page to examine the daily stock market performance based on opening, closing, high, and low prices|OK|
 |Power BI|Create a page to analyze the distribution of IPO years across different sectors and countries|
-|Power BI|Create a page to identify trends in trading volume and open interest over time|
+|Power BI|Create a page to identify trends in trading volume and open interest over time|Ignore|
 |Power BI|Create a page to analyze the distribution of industries within each sector|
 |Power BI|Create a page to analyze the stock market activity on a monthly basis|
 |Power BI|Create a page to identify the best performing sectors based on stock market data|
+|Power BI|what are the top 3 symbols with highest volume in year 2022|
+|Power BI|Create a page to identify trends and patterns in specific sectors.|OK|
+|Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|
+|Power BI|Question: Show top 5 Sectors by total Vol |OK|
+|Power BI|Question: Show top 10 Industries by total Vol from last 12 months |OK|
+|AI Skills experience| show me the count of stock |
+|AI Skills experience|  |
+
+
+
+## Step 6. DAX Calculations
+
+|Calc| DAX|
+|--|--|
+|YTDVol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))|
+|Prevyear|Prevyear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))|
+| Calc Column|Total Volume = CALCULATE(SUM(stockmarketdata[Vol]))|
+|KeyStock|KeyStock = IF(companymaster[Total Volume] > 10000,"Yes","No")
+|Vol|Vol2010 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2010)
+|Vol|Vol2015 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2015)
+|Growth|Growth = DIVIDE([Vol2015],[Vol2010])
+
+
+## Demo Script
+
+Semantic Model
+  Relationship
+  Date Table
+  Number formatting
+Set Date Table
+Analyze in Excel
+Schedule Report
+Alerts
+Copilot
+Connect from excel
+Connect from SSMS
+gen2 dataflow
+Copy Activity
+
+
+
