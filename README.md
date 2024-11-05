@@ -160,6 +160,8 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 
 ## Step 6. Power BI Copilot 
 
+Please note that Copilot is not supported on trial capacities, a minimum of F64 or P1 is required for this.
+
 |Copilot| Prompt|Status|
 |--|--|--|
 |Power BI|Create a page to examine the daily stock market performance based on opening, closing, high, and low prices|OK|
