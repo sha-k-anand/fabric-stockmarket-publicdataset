@@ -169,12 +169,12 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 |Power BI|Create a page to analyze the stock market activity on a monthly basis|
 |Power BI|Create a page to identify the best performing sectors based on stock market data|
 |Power BI|what are the top 3 symbols with highest volume in year 2022|
-|Power BI|Create a page to identify trends and patterns in specific sectors.|OK|
+|Power BI|Create a page to identify trends and patterns in specific sectors|OK|
 |Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|
 |Power BI|Question: Show top 5 Sectors by total Vol |OK|
 |Power BI|Question: Show top 10 Industries by total Vol from last 12 months |OK|
 |AI Skills experience| show me the count of stock |
-|AI Skills experience|  |
+|AI Skills experience| show me unique count of Symbol by industry |
 
 
 
@@ -189,23 +189,5 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 |Vol|Vol2010 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2010)
 |Vol|Vol2015 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2015)
 |Growth|Growth = DIVIDE([Vol2015],[Vol2010])
-
-
-## Demo Script
-
-Semantic Model
-  Relationship
-  Date Table
-  Number formatting
-Set Date Table
-Analyze in Excel
-Schedule Report
-Alerts
-Copilot
-Connect from excel
-Connect from SSMS
-gen2 dataflow
-Copy Activity
-
 
 
