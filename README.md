@@ -129,7 +129,9 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 </details>
 
 
-## Step 4. Create a new Semantic Model and set Table relationships
+## Step 4. Create a new customer Semantic Model and set Table relationships
+
+Please avoid using the inbuilt default semantic model.
 
 |Table 1|Table 2|Cardinality|Cross-filter direction|Make this relationship acitve|
 |--|--|--|--|--|
@@ -149,8 +151,6 @@ DROP TABLE IF EXISTS  csv_stockmarketdata;
 |calendar|MonthID|| None|Yes|
 |calendar|QuarterID|| None|Yes|
 |calendar|WeekID|| None|Yes|
-
-
 
 
 
