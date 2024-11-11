@@ -47,7 +47,7 @@ Navigate and browse shortcuts to view files
 
 </details>
 
-## Step 3. Create a spark notebook and copy the below cells to it.
+## Step 3. Create a spark notebook, attach the lakehouse, copy the below 3 cells into 3 cells and run it.
 <details>
 
   <summary>View notebook code</summary>
@@ -152,6 +152,7 @@ Please avoid using the inbuilt default semantic model.
 |calendar|QuarterID|| None|Yes|
 |calendar|WeekID|| None|Yes|
 
+Right click on the Calendar table and mark it as "Date" table
 
 
 ## Step 5. Create reports
@@ -165,18 +166,20 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 |Copilot| Prompt|Status|
 |--|--|--|
 |Power BI|Create a page to examine the daily stock market performance based on opening, closing, high, and low prices|OK|
-|Power BI|Create a page to analyze the distribution of IPO years across different sectors and countries|
+|Power BI|Create a page to analyze the distribution of IPO years across different sectors and countries|OK|
 |Power BI|Create a page to identify trends in trading volume and open interest over time|Ignore|
-|Power BI|Create a page to analyze the distribution of industries within each sector|
-|Power BI|Create a page to analyze the stock market activity on a monthly basis|
-|Power BI|Create a page to identify the best performing sectors based on stock market data|
-|Power BI|what are the top 3 symbols with highest volume in year 2022|
+|Power BI|Create a page to analyze the distribution of industries within each sector|OK|
+|Power BI|Create a page to analyze the stock market activity on a monthly basis|OK|
+|Power BI|Create a page to identify the best performing sectors based on stock market data|OK|
+|Power BI|what are the top 3 symbols with highest volume in year 2022|OK|
 |Power BI|Create a page to identify trends and patterns in specific sectors|OK|
-|Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|
+|Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|OK|
 |Power BI|Question: Show top 5 Sectors by total Vol |OK|
 |Power BI|Question: Show top 10 Industries by total Vol from last 12 months |OK|
-|AI Skills experience| show me the count of stock |
-|AI Skills experience| show me unique count of Symbol by industry |
+|AI Skills experience| show me the count of stock |OK|
+|AI Skills experience| show me unique count of Symbol by industry |OK|
+|Use Narrative visual|  |
+
 
 
 
@@ -186,10 +189,9 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 |--|--|
 |YTDVol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))|
 |Prevyear|Prevyear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))|
-| Calc Column|Total Volume = CALCULATE(SUM(stockmarketdata[Vol]))|
-|KeyStock|KeyStock = IF(companymaster[Total Volume] > 10000,"Yes","No")
-|Vol|Vol2010 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2010)
-|Vol|Vol2015 = CALCULATE(sum(stockmarketdata[Vol]),'calendar'[Year] = 2015)
-|Growth|Growth = DIVIDE([Vol2015],[Vol2010])
 
 
+
+ToDo
+Readme
+Add Link
