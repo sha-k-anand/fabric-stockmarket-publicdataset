@@ -1,0 +1,49 @@
+Here is a schema for my SQL database tables, i am going to ask few NLP questions on it.
+
+CREATE TABLE [dbo].[calendar](
+	[SQLDate] [date] NULL,
+	[DateID] [int] NULL,
+	[WeekID] [int] NULL,
+	[Week] [varchar](8000) NULL,
+	[QuarterID] [int] NULL,
+	[Quarter] [varchar](8000) NULL,
+	[MonthID] [int] NULL,
+	[Month] [varchar](8000) NULL,
+	[YearMonthID] [int] NULL,
+	[YearMonth] [varchar](8000) NULL,
+	[WeekDayID] [int] NULL,
+	[WeekDay] [varchar](8000) NULL,
+	[Year] [int] NULL
+)
+
+
+
+CREATE TABLE [dbo].[companymaster](
+	[Symbol] [varchar](8000) NULL,
+	[Name] [varchar](8000) NULL,
+	[Country] [varchar](8000) NULL,
+	[IPOYear] [varchar](8000) NULL,
+	[Sector] [varchar](8000) NULL,
+	[Industry] [varchar](8000) NULL,
+	[SymbolStartWith] [varchar](8000) NULL
+) 
+
+
+
+
+CREATE TABLE [dbo].[stockmarketdata](
+	[Ticker] [varchar](8000) NULL,
+	[DateID] [int] NULL,
+	[Open] [decimal](10, 4) NULL,
+	[High] [decimal](10, 4) NULL,
+	[Low] [decimal](10, 4) NULL,
+	[Close] [decimal](10, 4) NULL,
+	[Vol] [int] NULL,
+	[OpenInt] [int] NULL
+) 
+------------------------------------------------------------------------------
+What is the total volume of stocks traded in year 2022 ? Give me a SQL for it.
+------------------------------------------------------------------------------
+What is the total volume growth of stocks traded in year 2022 compared to previous year ? Give me a SQL for it.
+------------------------------------------------------------------------------
+What is the total volume of stocks traded in year 2022 ? Give me a SQL for it.

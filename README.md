@@ -1,5 +1,6 @@
 
 
+
 ## Step 1. Create  a workspace
     Create a new workspace in fabric
 ## Step 2. Create  a Lakehouse
@@ -141,18 +142,19 @@ Please avoid using the inbuilt default semantic model.
 
 ### Click on each of the columns in the modeling view and go to properties -> advanced and then set the "Sort by Column"
 
-|Table |Column |Sort by Column|Summarize by| Is Hidden |
-|--|--|--|--|--|
-|calendar|YearMonth|YearMonthID|
-|calendar|Month|MonthID|
-|calendar|Week|WeekID|
-|calendar|Quarter|QuarterID|
-|calendar|Year|| None|
-|calendar|MonthID|| None|Yes|
-|calendar|QuarterID|| None|Yes|
-|calendar|WeekID|| None|Yes|
+|Table |Column |Sort by Column|Summarize by| Is Hidden |Thousand Separator|
+|--|--|--|--|--|--|
+|calendar|YearMonth|YearMonthID||
+|calendar|Month|MonthID||
+|calendar|Week|WeekID||
+|calendar|Quarter|QuarterID||
+|calendar|Year|| None||
+|calendar|MonthID|| None|Yes||
+|calendar|QuarterID|| None|Yes||
+|calendar|WeekID|| None|Yes||
+|stockmarket|Vol||||Yes|
 
-Right click on the Calendar table and mark it as "Date" table
+Right click on the Calendar table and mark it as "Date" table and choose SQLDate as the date column.
 
 
 ## Step 5. Create reports
@@ -173,11 +175,16 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 |Power BI|Create a page to identify the best performing sectors based on stock market data|OK|
 |Power BI|what are the top 3 symbols with highest volume in year 2022|OK|
 |Power BI|Create a page to identify trends and patterns in specific sectors|OK|
-|Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|OK|
+|Power BI|(Enable QnA) Question: show top 10 performing stock from last 12 months|OK - Followup Questions|
 |Power BI|Question: Show top 5 Sectors by total Vol |OK|
 |Power BI|Question: Show top 10 Industries by total Vol from last 12 months |OK|
-|AI Skills experience| show me the count of stock |OK|
-|AI Skills experience| show me unique count of Symbol by industry |OK|
+|Data Agents - Semantic Model| show me the count of stocks |OK|
+|Data Agents - Semantic Model| show me the unique count of Symbols by industry |OK|
+|Data Agents - Semantic Model| What are the top 3 industries with most trade volume in 2023  |Not OK |
+|Data Agents - Semantic Model|Which sector had more growth in volume compared to year 2020 and 2022|OK |
+|Data Agents - Semantic Model - Followup/context|show the stocks that contributed the most ?|OK |
+
+
 |Use Narrative visual|  |
 
 
@@ -187,8 +194,8 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 
 |Calc| DAX|
 |--|--|
-|YTDVol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))|
-|Prevyear|Prevyear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))|
+|Year to Date Vol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))|
+|SamePeriodLastYear|SamePeriodLastYear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))|
 
 
 
