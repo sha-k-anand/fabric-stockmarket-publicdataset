@@ -17,13 +17,13 @@ Navigate to the lakehouse and click on the files section and create a new shortc
 ### Shortcut ADLS Gen2
 
 
-|Setting|Value|
-|--|--|
-|URL|```https://publicdatamsdndatalake.dfs.core.windows.net/dataset```|
-|Connection|Create new connection|
-|Connection name|```publicdatastockmarket```|
-|Authentication Kind|Shared Access Signature (SAS)|
-|SAS token (updated Jan 2026)|```sv=2024-11-04&ss=bfqt&srt=sco&sp=rlacupx&se=2030-01-01T00:03:22Z&st=2026-01-05T15:48:22Z&spr=https&sig=6t6kDSW2%2By2q%2BGXOgDjLPwg4%2BDXpQqGepSc7xtoYu74%3D```|
+|Setting|Value|Copy|
+|--|--|--|
+|URL|```https://publicdatamsdndatalake.dfs.core.windows.net/dataset```|<pre><code>https://publicdatamsdndatalake.dfs.core.windows.net/dataset</code></pre>|
+|Connection|Create new connection||
+|Connection name|```publicdatastockmarket```|<pre><code>publicdatastockmarket</code></pre>|
+|Authentication Kind|Shared Access Signature (SAS)||
+|SAS token (updated Jan 2026)|```sv=2024-11-04&ss=bfqt&srt=sco&sp=rlacupx&se=2030-01-01T00:03:22Z&st=2026-01-05T15:48:22Z&spr=https&sig=6t6kDSW2%2By2q%2BGXOgDjLPwg4%2BDXpQqGepSc7xtoYu74%3D```|<pre><code>sv=2024-11-04&ss=bfqt&srt=sco&sp=rlacupx&se=2030-01-01T00:03:22Z&st=2026-01-05T15:48:22Z&spr=https&sig=6t6kDSW2%2By2q%2BGXOgDjLPwg4%2BDXpQqGepSc7xtoYu74%3D</code></pre>|
 
 
 ### Shortcut ADLS Gen2 dataset
