@@ -3,7 +3,7 @@
 
 ## Step 1. Create  a workspace
     Create a new workspace in fabric
-## Step 2. Create  a Lakehouse
+## Step 2. Create  a Lakehouse (with noschema option)
   Navigate to the newly created workspace and create a new lakehouse in it.
   This should enable fabric trial and assign the newly created workspace to the trial capacity.
 
@@ -23,7 +23,8 @@ Navigate to the lakehouse and click on the files section and create a new shortc
 |Connection|Create new connection|
 |Connection name|```publicdatastockmarket```|
 |Authentication Kind|Shared Access Signature (SAS)|
-|SAS token|```sp=rle&st=2024-02-28T15:36:24Z&se=2025-12-31T23:36:24Z&spr=https&sv=2022-11-02&sr=c&sig=D09gESF9Cd0jObLDKSLO%2F1RA1JJGXMlf1W865YDNm1o%3D```|
+|SAS token (updated Jan 2026)|```sv=2024-11-04&ss=bfqt&srt=sco&sp=rlacupx&se=2030-01-01T00:03:22Z&st=2026-01-05T15:48:22Z&spr=https&sig=6t6kDSW2%2By2q%2BGXOgDjLPwg4%2BDXpQqGepSc7xtoYu74%3D```|
+
 
 ### Shortcut ADLS Gen2 dataset
 
@@ -181,7 +182,7 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 |Data Agents - Semantic Model| show me the count of stocks |OK|
 |Data Agents - Semantic Model| show me the unique count of Symbols by industry |OK|
 |Data Agents - Semantic Model| What are the top 3 industries with most trade volume in 2023  |Not OK |
-|Data Agents - Semantic Model|Which sector had more growth in volume compared to year 2020 and 2022|OK |
+|Data Agents - Semantic Model| Which sector had more growth in volume compared to year 2020 and 2022|OK |
 |Data Agents - Semantic Model - Followup/context|show the stocks that contributed the most ?|OK |
 
 
@@ -192,10 +193,12 @@ Please note that Copilot is not supported on trial capacities, a minimum of F64 
 
 ## Step 6. DAX Calculations
 
-|Calc| DAX|
-|--|--|
-|Year to Date Vol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))|
-|SamePeriodLastYear|SamePeriodLastYear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))|
+|Calc| DAX|Format|
+|--|--|--|
+|Year to Date Vol|YTDVol = CALCULATE(sum(stockmarketdata[Vol]),DATESYTD('calendar'[SQLDate]))||
+|SamePeriodLastYear|SamePeriodLastYear = CALCULATE(sum(stockmarketdata[Vol]),SAMEPERIODLASTYEAR('calendar'[SQLDate]))||
+|Year to Date Vol|YOY Growth Diff = CALCULATE(sum(stockmarketdata[Vol])) - [SamePeriodLastYear]||
+|SamePeriodLastYear|YOY Growth Percent = [YOY Growth Diff] / CALCULATE(sum(stockmarketdata[Vol]))|Percent|
 
 
 
