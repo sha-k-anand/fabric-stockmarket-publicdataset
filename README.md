@@ -164,7 +164,8 @@ Right click on the Calendar table and mark it as "Date" table and choose SQLDate
 
 ## Step 6. Power BI Copilot 
 
-Please note that Copilot is not supported on trial capacities, a minimum of F64 or P1 is required for this.
+Please note that Copilot is not supported on trial capacities.
+
 
 |Copilot| Prompt|Status|
 |--|--|--|
